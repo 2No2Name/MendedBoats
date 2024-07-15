@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "mendedboats",
+  "version": "${version}",
+  "name": "Mended Boats",
+  "description": "Boats, but with less bugs",
+  "authors": [
+    "2No2Name"
+  ],
+  "contact": {
+    "homepage": "https://github.com/2No2Name/MendedBoats",
+    "sources": "https://github.com/2No2Name/MendedBoats"
+  },
+  "icon": "assets/mendedboats/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "mendedboats.MendedBoatsMod"
+    ]
+  },
+  "mixins": [
+    "mendedboats.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": "*"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "mendedboats.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "boat.BoatEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
