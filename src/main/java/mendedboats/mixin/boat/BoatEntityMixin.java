@@ -25,14 +25,14 @@ public abstract class BoatEntityMixin extends Entity {
     boolean wasPlayerControlled = false;
 
     @Inject(
-            method = "updateTrackedPositionAndAngles(DDDFFI)V",
+            method = "updateTrackedPositionAndAngles",
             at = @At("HEAD"),
             cancellable = true
     )
-    private void setCartPosLikeOtherEntities(double x, double y, double z, float yaw, float pitch, int interpolationSteps, CallbackInfo ci) {
+    private void setCartPosLikeOtherEntities(double x, double y, double z, float yaw, float pitch, int interpolationSteps, boolean interpolate, CallbackInfo ci) {
         if (this.getWorld().isClient) {
             ci.cancel();
-            super.updateTrackedPositionAndAngles(x, y, z, yaw, pitch, interpolationSteps);
+            super.updateTrackedPositionAndAngles(x, y, z, yaw, pitch, interpolationSteps, interpolate);
         }
     }
 
