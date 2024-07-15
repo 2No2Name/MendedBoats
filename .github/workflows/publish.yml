@@ -1,4 +1,4 @@
-name: Releases
+name: release-artifacts
 
 on:
   release:
@@ -6,7 +6,7 @@ on:
       - published
 
 jobs:
-  release:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
