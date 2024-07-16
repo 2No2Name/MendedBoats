@@ -37,6 +37,21 @@ public abstract class BoatEntityMixin extends Entity {
     }
 
     @Inject(
+            method = "updatePositionAndRotation",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/vehicle/BoatEntity;lerpPosAndRotation(IDDDDD)V", shift = At.Shift.AFTER)
+    )
+    private void updatePrevYaw(CallbackInfo ci) {
+        //Fix previous yaw like vanilla mob entities
+        while (this.getYaw() - this.prevYaw < -180.0F) {
+            this.prevYaw -= 360.0F;
+        }
+
+        while (this.getYaw() - this.prevYaw >= 180.0F) {
+            this.prevYaw += 360.0F;
+        }
+    }
+
+    @Inject(
             method = "tick",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/vehicle/BoatEntity;updateVelocity()V")
     )
