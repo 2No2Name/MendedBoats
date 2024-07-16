@@ -18,6 +18,8 @@ public abstract class BoatEntityMixin extends Entity {
 
     @Shadow protected abstract void updateVelocity();
 
+    @Shadow private int lerpTicks;
+
     public BoatEntityMixin(EntityType<?> type, World world) {
         super(type, world);
     }
@@ -25,14 +27,12 @@ public abstract class BoatEntityMixin extends Entity {
     boolean wasPlayerControlled = false;
 
     @Inject(
-            method = "updateTrackedPositionAndAngles(DDDFFI)V",
-            at = @At("HEAD"),
-            cancellable = true
+            method = "updateTrackedPositionAndAngles",
+            at = @At("RETURN")
     )
     private void setCartPosLikeOtherEntities(double x, double y, double z, float yaw, float pitch, int interpolationSteps, CallbackInfo ci) {
         if (this.getWorld().isClient) {
-            ci.cancel();
-            super.updateTrackedPositionAndAngles(x, y, z, yaw, pitch, interpolationSteps);
+            this.lerpTicks = this.getType().getTrackTickInterval(); //Reduced interpolation. Normally 10, normal mobs have 3
         }
     }
 
@@ -40,7 +40,7 @@ public abstract class BoatEntityMixin extends Entity {
             method = "tick",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/vehicle/BoatEntity;updateVelocity()V")
     )
-    private void setCartPosLikeOtherEntities(CallbackInfo ci) {
+    private void simulateCartsOnClientLikeOnServer1(CallbackInfo ci) {
         if (this.getWorld().isClient) {
             this.wasPlayerControlled = true;
         }
